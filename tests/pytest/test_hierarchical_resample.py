@@ -1,6 +1,6 @@
 import pytest
 
-from lambdas_aves_marinas import (
+from seabird_growth_rate import (
     get_average_lambda_from_group,
     get_bootstraped_lambda_from_group,
     get_group_list,

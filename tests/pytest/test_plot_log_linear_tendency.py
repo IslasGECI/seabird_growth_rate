@@ -3,7 +3,7 @@ import hashlib
 import pytest
 import numpy as np
 
-from lambdas_aves_marinas import (
+from seabird_growth_rate import (
     get_lambda_from_csv,
     get_number_of_nests,
     get_to_plot_from_island_and_specie,

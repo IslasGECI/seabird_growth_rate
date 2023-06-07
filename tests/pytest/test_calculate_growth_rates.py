@@ -1,7 +1,7 @@
 import subprocess
 import pandas as pd
 import pytest
-import lambdas_aves_marinas as lam
+import seabird_growth_rate as sgr
 
 
 bashCommand = "make data/processed/subset_burrows_data.csv"
@@ -28,13 +28,13 @@ def test_calculate_interest_numbers():
     df = get_df("data/processed/subset_burrows_data.csv")
     laal = df[df["Nombre_en_ingles"] == "Laysan Albatross"]
     cantidad_nidos = pd.DataFrame(nidos_array)
-    model = lam.fit_population_model(laal["Temporada"], laal["Maxima_cantidad_nidos"])
+    model = sgr.fit_population_model(laal["Temporada"], laal["Maxima_cantidad_nidos"])
     (
         obtained_first_number,
         obtained_first_number_calculated,
         obtained_last_number,
         obtained_last_number_calculated,
-    ) = lam.calculate_interest_numbers(cantidad_nidos, model)
+    ) = sgr.calculate_interest_numbers(cantidad_nidos, model)
 
     expected_first_number = "283 (2014)"
     expected_first_number_calculated = "326.1481866290459 (2014)"
@@ -51,7 +51,7 @@ def test_generate_season_interval():
     datos_di = {"da": [1, 2, 3, 4, 5]}
     df = pd.DataFrame(datos_di)
     expected_interval = "(1-5)"
-    obtained_interval = lam.generate_season_interval(df["da"])
+    obtained_interval = sgr.generate_season_interval(df["da"])
     assert expected_interval == obtained_interval
 
 
@@ -59,12 +59,12 @@ def test_calculate_percent_diff_in_seasons():
     datos_di = {"Maxima_cantidad_nidos": [1, 2, 3, 4, 5]}
     df = pd.DataFrame(datos_di)
     expected_percent = 400
-    obtaibed_percent = lam.calculate_percent_diff_in_seasons(df, df["Maxima_cantidad_nidos"])
+    obtaibed_percent = sgr.calculate_percent_diff_in_seasons(df, df["Maxima_cantidad_nidos"])
     assert expected_percent == obtaibed_percent
     datos_d1 = {"Maxima_cantidad_nidos": [0, 2, 3, 4, 5]}
     df_2 = pd.DataFrame(datos_d1)
     expected_percent = 400
-    obtaibed_percent = lam.calculate_percent_diff_in_seasons(df_2, df["Maxima_cantidad_nidos"])
+    obtaibed_percent = sgr.calculate_percent_diff_in_seasons(df_2, df["Maxima_cantidad_nidos"])
     assert expected_percent == obtaibed_percent
 
 
@@ -87,16 +87,16 @@ testdata = [
 @pytest.mark.parametrize("path,expected_seasons", testdata)
 def test_get_monitored_seasons(path, expected_seasons):
     burrows_data_dataframe = get_df(path)
-    obtained_seasons = lam.get_monitored_seasons(burrows_data_dataframe["Temporada"])
+    obtained_seasons = sgr.get_monitored_seasons(burrows_data_dataframe["Temporada"])
     print(obtained_seasons)
     assert expected_seasons == obtained_seasons
 
 
 def test_calculate_growth_rates_table():
     data = pd.read_csv("tests/data/subset_burrows_data.csv")
-    bootstrap = lam.Bootstrap["testing"]
+    bootstrap = sgr.Bootstrap["testing"]
     bootstrap.set_data(data)
-    tabla = lam.calculate_growth_rates_table(bootstrap)
+    tabla = sgr.calculate_growth_rates_table(bootstrap)
     p_valor_mayor = tabla[10]
     p_valor_menor = tabla[11]
     expected_p_valor_mayor = 0.25
