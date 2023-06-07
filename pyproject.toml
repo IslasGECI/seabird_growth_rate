@@ -10,5 +10,7 @@ description-file = "README.md"
 home-page = "https://github.com/IslasGECI/seabird_growth_rate"
 module = "seabird_growth_rate"
 requires = [
+		"bootstrapping_tools==0.5.0",
+		"matplotlib",
 ]
 requires-python=">=3.9"
