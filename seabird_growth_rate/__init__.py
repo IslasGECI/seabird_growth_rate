@@ -1,4 +1,7 @@
-"""A template Python module"""
+"""A local Python module"""
 
-__version__ = "0.4.0"
-from .transformations import add_offset  # noqa
+__version__ = "0.1.0"
+from .calculate_growth_rates import *  # noqa
+from .example_diversity_alpha_and_beta import *  # noqa
+from .hierarchical_resample import *  # noqa
+from .plot_log_linear_tendency import *  # noqa
